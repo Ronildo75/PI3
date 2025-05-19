@@ -1,0 +1,104 @@
+package com.projetopi.projetopidepizza
+
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import com.projetopi.projetopidepizza.adapter.ProductAdapter
+import com.projetopi.projetopidepizza.databinding.ActivityMainBinding
+import com.projetopi.projetopidepizza.listitems.Products
+import com.projetopi.projetopidepizza.model.Product
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var productAdapter: ProductAdapter
+    private val products = Products()
+    private val productList: MutableList<Product> = mutableListOf()
+
+    var clicked = false
+
+    @SuppressLint("ResourceAsColor")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        window.statusBarColor = Color.parseColor("#E0E0E0")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            products.getProducts().collect {
+                productList.addAll(it)
+                runOnUiThread {
+                    productAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        val recyclerViewProducts = binding.recyclerViewProducts
+        recyclerViewProducts.layoutManager = GridLayoutManager(this, 2)
+        productAdapter = ProductAdapter(this, productList)
+        recyclerViewProducts.setHasFixedSize(true)
+        recyclerViewProducts.adapter = productAdapter
+
+        binding.btAll.setOnClickListener {
+            clicked = true
+            if (clicked) {
+                shuffleProducts()
+                updateButtonStyles(binding.btAll)
+                binding.txtListTitle.text = "Todos"
+            }
+        }
+
+        binding.btSalgados.setOnClickListener {
+            clicked = true
+            if (clicked) {
+                shuffleProducts()
+                updateButtonStyles(binding.btSalgados)
+                binding.txtListTitle.text = "Salgados"
+            }
+        }
+
+        binding.btPizza.setOnClickListener {
+            clicked = true
+            if (clicked) {
+                shuffleProducts()
+                updateButtonStyles(binding.btPizza)
+                binding.txtListTitle.text = "Pizza"
+            }
+        }
+
+        binding.btDoces.setOnClickListener {
+            clicked = true
+            if (clicked) {
+                shuffleProducts()
+                updateButtonStyles(binding.btDoces)
+                binding.txtListTitle.text = "Doces"
+            }
+        }
+    }
+
+    private fun shuffleProducts() {
+        productList.shuffle()
+        productAdapter.notifyDataSetChanged()
+    }
+
+    private fun updateButtonStyles(selectedButton: View) {
+        val buttons = listOf(binding.btAll, binding.btSalgados, binding.btPizza, binding.btDoces)
+        buttons.forEach { button ->
+            if (button == selectedButton) {
+                button.setBackgroundResource(R.drawable.bg_button_enabled)
+                button.setTextColor(Color.WHITE)
+            } else {
+                button.setBackgroundResource(R.drawable.bg_button_disabled)
+                button.setTextColor(R.color.dark_gray)
+
+            }
+        }
+    }
+}
