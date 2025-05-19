@@ -1,0 +1,24 @@
+{
+    "pizzaria": {
+        "nome": "Pizzaria Delícia",
+        "endereco": "Rua das Pizzas, 123 - São Paulo, SP",
+        "telefone": "(11) 1234-5678",
+        "cardapio": [
+            {
+                "nome": "Mussarela",
+                "preco": 30.0,
+                "ingredientes": ["Queijo mussarela", "Molho de tomate", "Orégano"]
+            },
+            {
+                "nome": "Calabresa",
+                "preco": 32.0,
+                "ingredientes": ["Calabresa", "Cebola", "Molho de tomate", "Orégano"]
+            },
+            {
+                "nome": "Portuguesa",
+                "preco": 35.0,
+                "ingredientes": ["Queijo", "Presunto", "Ovos", "Cebola", "Azeitonas", "Molho de tomate"]
+            }
+        ]
+    }
+}
