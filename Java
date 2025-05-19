@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Pizza {
+    String nome;
+    double preco;
+
+    public Pizza(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " - R$ " + preco;
+    }
+}
+
+public class Pizzaria {
+    public static void main(String[] args) {
+        List<Pizza> cardapio = new ArrayList<>();
+        cardapio.add(new Pizza("Mussarela", 30.0));
+        cardapio.add(new Pizza("Calabresa", 32.0));
+        cardapio.add(new Pizza("Portuguesa", 35.0));
+
+        System.out.println("Bem-vindo à Pizzaria Delícia!");
+        System.out.println("Nosso cardápio:");
+        for (Pizza pizza : cardapio) {
+            System.out.println(pizza);
+        }
+    }
+}
